@@ -1,21 +1,21 @@
 #include "main.hpp"
+#include "Settings.hpp"
 
-static ModInfo modInfo; // Stores the ID and version of our mod, and is sent to the modloader upon startup
+#include "questui/shared/QuestUI.hpp"
+#include "custom-types/shared/register.hpp"
 
-// Loads the config from disk using our modInfo, then returns it for use
+static ModInfo modInfo;
 Configuration& getConfig() {
     static Configuration config(modInfo);
     config.Load();
     return config;
 }
 
-// Returns a logger, useful for printing debug messages
 Logger& getLogger() {
-    static Logger logger(modInfo);
-    return logger;
+    static Logger* logger = new Logger(modInfo, LoggerOptions(false, true));
+    return *logger;
 }
 
-// Called at the early stages of game loading
 extern "C" void setup(ModInfo& info) {
     info.id = ID;
     info.version = VERSION;
@@ -25,11 +25,24 @@ extern "C" void setup(ModInfo& info) {
     getLogger().info("Completed setup!");
 }
 
-// Called later on in the game loading - a good time to install function hooks
 extern "C" void load() {
+    getLogger().info("Installing hooks...");
     il2cpp_functions::Init();
 
-    getLogger().info("Installing hooks...");
-    // Install our hooks (none defined yet)
+    // Use this for Quest UI
+    // QuestUI::Init();
+
+    LoggerContextObject logger = getLogger().WithContext("load");
+
+    // Custom Types
+    custom_types::Register::RegisterType<#{id}::#{id}ViewController>();
+
+    // Register our mod settings menu
+    QuestUI::Register::RegisterModSettingsViewController<#{id}::#{id}ViewController*>(modInfo);
+
+    // Install our hooks
+
+    // Hook for BS hook 1.0.9
+    // INSTALL_HOOK_OFFSETLESS(logger, Class_Method, il2cpp_utils::FindMethodUnsafe("", "Class", "Method", 0));
     getLogger().info("Installed all hooks!");
 }
