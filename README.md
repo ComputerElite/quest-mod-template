@@ -4,4 +4,6 @@ A template for creating Beat Saber mods for the Oculus Quest. This template take
 
 This template is set up for downloading dependencies using QPM. You can find more info about getting started with Quest modding [here](https://github.com/danrouse/beatsaber-quest-modding-guide).
 
-Created by [Lauriethefish](https://github.com/Lauriethefish) and [danrouse](https://github.com/danrouse).
+**Fork from the original one that adds Mod settings and codegen so you don't have to set all up yourself**
+
+Created by [Lauriethefish](https://github.com/Lauriethefish), [ComputerElite](https://github.com/ComputerElite) and [danrouse](https://github.com/danrouse).
