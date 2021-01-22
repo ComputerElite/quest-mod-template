@@ -29,7 +29,7 @@ include $(PREBUILT_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := beatsaber-hook
 LOCAL_EXPORT_C_INCLUDES := extern/beatsaber-hook
-LOCAL_SRC_FILES := extern/libbeatsaber-hook_1_0_9.so
+LOCAL_SRC_FILES := extern/libbeatsaber-hook_1_0_10.so
 LOCAL_CPP_FEATURES += exceptions
 include $(PREBUILT_SHARED_LIBRARY)
 
@@ -37,7 +37,7 @@ include $(PREBUILT_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := codegen
 LOCAL_EXPORT_C_INCLUDES := extern/codegen
-LOCAL_SRC_FILES := extern/libcodegen_0_5_3.so
+LOCAL_SRC_FILES := extern/libcodegen_0_6_1.so
 include $(PREBUILT_SHARED_LIBRARY)
 
 # Creating prebuilt for dependency: questui
