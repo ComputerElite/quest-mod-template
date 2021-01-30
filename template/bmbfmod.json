@@ -13,34 +13,10 @@
     {
       "type": "HookMod",
       "installAction": {
-        "installLibraryFile": "lib#{id}_0_1_0.so"
+        "installLibraryFile": "lib#{id}.so"
       },
       "uninstallAction": {
-        "removeLibraryFile": "lib#{id}_0_1_0.so"
-      }
-    },
-    {
-      "type": "HookModLibrary",
-      "installAction": {
-        "installLibraryFile": "libbeatsaber-hook_1_0_10.so"
-      }
-    },
-    {
-      "type": "HookModLibrary",
-      "installAction": {
-        "installLibraryFile": "libcodegen_0_6_1.so"
-      }
-    },
-    {
-      "type": "HookModLibrary",
-      "installAction": {
-        "installLibraryFile": "libquestui.so"
-      }
-    },
-    {
-      "type": "HookModLibrary",
-      "installAction": {
-        "installLibraryFile": "libcustom-types.so"
+        "removeLibraryFile": "lib#{id}.so"
       }
     }
   ]
