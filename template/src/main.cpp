@@ -5,6 +5,8 @@
 #include "custom-types/shared/register.hpp"
 
 static ModInfo modInfo;
+DEFINE_CONFIG(ModConfig);
+
 Configuration& getConfig() {
     static Configuration config(modInfo);
     config.Load();
@@ -30,19 +32,16 @@ extern "C" void load() {
     il2cpp_functions::Init();
 
     // Use this for Quest UI
-    // QuestUI::Init();
+    QuestUI::Init();
 
     LoggerContextObject logger = getLogger().WithContext("load");
 
-    // Custom Types
-    custom_types::Register::RegisterType<#{id}::#{id}ViewController>();
-
     // Register our mod settings menu
-    QuestUI::Register::RegisterModSettingsViewController<#{id}::#{id}ViewController*>(modInfo);
+    QuestUI::Register::RegisterModSettingsViewController(modInfo, DidActivate);
 
     // Install our hooks
 
-    // Hook for BS hook 1.0.9
+    // Hook for BS hook 1.3.3
     // INSTALL_HOOK_OFFSETLESS(logger, Class_Method, il2cpp_utils::FindMethodUnsafe("", "Class", "Method", 0));
     getLogger().info("Installed all hooks!");
 }

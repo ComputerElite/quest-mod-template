@@ -24,52 +24,31 @@ using namespace UnityEngine;
 using namespace UnityEngine::UI;
 using namespace UnityEngine::Events;
 using namespace HMUI;
-using namespace #{id};
-
-DEFINE_CLASS(#{id}ViewController);
-
-void SetBool(#{id}ViewController* self, bool newValue) {
-    getConfig().config["Property"].SetBool(newValue);
-}
-
-void SetFloat(#{id}ViewController* self, float newValue)   {
-    getConfig().config["Property"].SetFloat(newValue);
-}
-
-void ButtonPress(#{id}ViewController* self)  {
-    // Do something
-}
 
 
-void #{id}ViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling){
+void DidActivate(ViewController* self, bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling){
     if(firstActivation) {
-        get_gameObject()->AddComponent<Touchable*>();
-        GameObject* container = BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
+        self->get_gameObject()->AddComponent<Touchable*>();
+        GameObject* container = BeatSaberUI::CreateScrollableSettingsContainer(self->get_transform());
 
-        // Toggle
-        auto TogglePress = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
-                   classof(UnityEngine::Events::UnityAction_1<bool>*), this, SetBool);
-        UnityEngine::UI::Toggle* ToggleObject = QuestUI::BeatSaberUI::CreateToggle(container->get_transform(), "Toggle Text", getConfig().config["Property"].GetBool(), TogglePress);
-        QuestUI::BeatSaberUI::AddHoverHint(ToggleObject->get_gameObject(), "Hover Hint for Toggle");
+        // Toggle with hover hint (hover hint applies to all UI elements)
+        QuestUI::BeatSaberUI::AddHoverHint(AddConfigValueToggle(container->get_transform(), getModConfig().ExampleBool)->get_gameObject(), "An Example toggle");
 
         // Increment
-        auto IncrementChange = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<float>*>(
-                    classof(UnityEngine::Events::UnityAction_1<float>*), this, SetFloat);
-                    //                                                                                                                          Decimal places   Value Steps                                            Min Value   Max Value
-        QuestUI::IncrementSetting* IncrementObject = QuestUI::BeatSaberUI::CreateIncrementSetting(container->get_transform(), "Increment Text", 0              , 1.0        , getConfig().config["Property"].GetFloat(), 0.0f      , 100.0f  , IncrementChange);
-        QuestUI::BeatSaberUI::AddHoverHint(IncrementObject->get_gameObject(), "Hover Hint for Increment");
+        //                                                                                    Decimal Places, Steps, min , max
+        AddConfigValueIncrementFloat(container->get_transform(), getModConfig().ExampleFloat, 1             , 0.1f , 0.0f, 1.0f);
 
         // Button
-        auto ButtonPressed = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction*>(
-                    classof(UnityEngine::Events::UnityAction*), this, ButtonPress);
-        UnityEngine::UI::Button* ButtonObject = QuestUI::BeatSaberUI::CreateUIButton(container->get_transform(), "Button Text", ButtonPressed);
-        QuestUI::BeatSaberUI::AddHoverHint(ButtonObject->get_gameObject(), "Hover Hint for Button");
+        BeatSaberUI::CreateUIButton(container->get_transform(), "You Button", 
+            []() {
+                //Your code here
+            });
+
+
+        //Color
+        AddConfigValueColorPicker(container->get_transform(), getModConfig().ExampleColor);
 
         // Text
         QuestUI::BeatSaberUI::CreateText(container->get_transform(), "Text");
     }
-}
-
-void #{id}ViewController::DidDeactivate(bool removedFromHierarchy, bool screenSystemDisabling) {
-    getConfig().Write();
 }
